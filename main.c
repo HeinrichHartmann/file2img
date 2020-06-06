@@ -22,7 +22,7 @@ struct index_format_t {
 struct color_format_t {
 	char const* id;
 	int bit_depth;
-	void (*function)(struct rgba8888_t* dst, uint8_t const* src, int numBytes);
+	void (*function)(rgba8888_t* dst, uint8_t const* src, int numBytes);
 	char const* description;
 };
 
@@ -31,7 +31,7 @@ struct block_format_t {
 	int bit_depth;
 	int width;
 	int height;
-	void (*function)(struct rgba8888_t* dst, uint8_t const* src, int dstWidth, int numBytes);
+	void (*function)(rgba8888_t* dst, uint8_t const* src, int dstWidth, int numBytes);
 	char const* description;
 };
 
@@ -286,7 +286,7 @@ int calculatePixelCount(int numSrcBytes, struct color_format_t const* colorForma
 	}
 }
 
-void applyTileLayout(struct rgba8888_t* buffer, int width, int height, int tileWidth, int tileHeight) {
+void applyTileLayout(rgba8888_t* buffer, int width, int height, int tileWidth, int tileHeight) {
 	if ((width % tileWidth) != 0) {
 		printf("Chosen layout must have a width divisible by %d.\n", tileWidth);
 		exit(1);
@@ -299,7 +299,7 @@ void applyTileLayout(struct rgba8888_t* buffer, int width, int height, int tileW
 	// TODO: we could be clever and do this with a scratch buffer that's only one tile tall
 	int const numPixels = width * height;
 	int const bufferLength = numPixels;
-	struct rgba8888_t* scratch = (struct rgba8888_t*)malloc(sizeof(struct rgba8888_t) * bufferLength);
+	rgba8888_t* scratch = (rgba8888_t*)malloc(sizeof(rgba8888_t) * bufferLength);
 	{
 		for (int i = 0; i < numPixels; ++i) {
 			int const xinblock = i % tileWidth;
@@ -313,7 +313,7 @@ void applyTileLayout(struct rgba8888_t* buffer, int width, int height, int tileW
 			scratch[offset] = buffer[i];
 		}
 		
-		memcpy(buffer, scratch, (size_t)bufferLength * sizeof(struct rgba8888_t));
+		memcpy(buffer, scratch, (size_t)bufferLength * sizeof(rgba8888_t));
 	}
 	free(scratch);
 }
@@ -389,8 +389,8 @@ void processInputFile(char const* inputFilePath)
 			}
 		}
 
-		struct rgba8888_t* dstBuffer = (struct rgba8888_t*)malloc(width * height * sizeof(struct rgba8888_t));
-		memset(dstBuffer, 0, width * height * sizeof(struct rgba8888_t));
+		rgba8888_t* dstBuffer = (rgba8888_t*)malloc(width * height * sizeof(rgba8888_t));
+		memset(dstBuffer, 0, width * height * sizeof(rgba8888_t));
 		int const dstComp = 4;
 
 		if (g_indexFormat) {
@@ -401,7 +401,7 @@ void processInputFile(char const* inputFilePath)
 			fseek(fh, g_paletteStart, SEEK_SET);
 			fread(paletteSrcBuffer, 1, paletteSizeBytes, fh);
 
-			struct rgba8888_t palette[numPaletteEntries];
+			rgba8888_t palette[numPaletteEntries];
 			g_colorFormat->function(palette, paletteSrcBuffer, paletteSizeBytes);
 			
 			int indexBuffer[width * height];

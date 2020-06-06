@@ -41,54 +41,54 @@ inline uint64_t readU48LE(uint8_t const** src) {
 	return (f<<40) | (e<<32) | (d<<24) | (c<<16) | (b<<8) | a;
 }
 
-inline struct rgba8888_t convertRGB565(uint16_t value) {
+inline rgba8888_t convertRGB565(uint16_t value) {
 	uint8_t const r = expand5(value >> 11);
 	uint8_t const g = expand6((value >> 5) & 0x3f);
 	uint8_t const b = expand5(value & 0x1f);
-	return (struct rgba8888_t){r,g,b,0xff};
+	return (rgba8888_t){r,g,b,0xff};
 }
 
-inline struct rgba8888_t convertBGR565(uint16_t value) {
+inline rgba8888_t convertBGR565(uint16_t value) {
 	uint8_t const r = expand5(value & 0x1f);
 	uint8_t const g = expand6((value >> 5) & 0x3f);
 	uint8_t const b = expand5(value >> 11);
-	return (struct rgba8888_t){r,g,b,0xff};
+	return (rgba8888_t){r,g,b,0xff};
 }
 
-inline struct rgba8888_t convertARGB1555(uint16_t value) {
+inline rgba8888_t convertARGB1555(uint16_t value) {
 	uint8_t const a = (value & 0x8000) != 0 ? 0xff : 0x00;
 	uint8_t const r = expand5((value >> 10) & 0x1f);
 	uint8_t const g = expand5((value >> 5) & 0x1f);
 	uint8_t const b = expand5(value & 0x1f);
-	return (struct rgba8888_t){r,g,b,a};
+	return (rgba8888_t){r,g,b,a};
 }
 
-inline struct rgba8888_t convertABGR1555(uint16_t value) {
+inline rgba8888_t convertABGR1555(uint16_t value) {
 	uint8_t const a = (value & 0x8000) != 0 ? 0xff : 0x00;
 	uint8_t const r = expand5(value & 0x1f);
 	uint8_t const g = expand5((value >> 5) & 0x1f);
 	uint8_t const b = expand5((value >> 10) & 0x1f);
-	return (struct rgba8888_t){r,g,b,a};
+	return (rgba8888_t){r,g,b,a};
 }
 
-inline struct rgba8888_t convertXRGB1555(uint16_t value) {
+inline rgba8888_t convertXRGB1555(uint16_t value) {
 	uint8_t const r = expand5((value >> 10) & 0x1f);
 	uint8_t const g = expand5((value >> 5) & 0x1f);
 	uint8_t const b = expand5(value & 0x1f);
-	return (struct rgba8888_t){r,g,b,0xff};
+	return (rgba8888_t){r,g,b,0xff};
 }
 
-inline struct rgba8888_t convertXBGR1555(uint16_t value) {
+inline rgba8888_t convertXBGR1555(uint16_t value) {
 	uint8_t const r = expand5(value & 0x1f);
 	uint8_t const g = expand5((value >> 5) & 0x1f);
 	uint8_t const b = expand5((value >> 10) & 0x1f);
-	return (struct rgba8888_t){r,g,b,0xff};
+	return (rgba8888_t){r,g,b,0xff};
 }
 
-inline struct rgba8888_t convertARGB4444(uint16_t value) {
+inline rgba8888_t convertARGB4444(uint16_t value) {
 	uint8_t const a = expand4(value >> 12);
 	uint8_t const r = expand4((value >> 8) & 0xf);
 	uint8_t const g = expand4((value >> 4) & 0xf);
 	uint8_t const b = expand4(value & 0xf);
-	return (struct rgba8888_t){r,g,b,a};
+	return (rgba8888_t){r,g,b,a};
 }
